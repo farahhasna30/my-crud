@@ -64,13 +64,10 @@ export default async function ReceiptDetailPage({ params }) {
   const receipt = await getReceiptById(id);
 
   if (!receipt) {
-    // Jika 'receipt' adalah null, tampilkan halaman 404
     console.log(`Recipe with ID ${id} not found, displaying 404.`);
     notFound();
   }
 
-  // Penting: Ganti 'gambar_url' menjadi 'foto_resep'
-  // sesuai dengan nama field di data JSON Anda
   const { nama_resep, foto_resep, deskripsi_resep, bahan, cara_membuat } =
     receipt;
 

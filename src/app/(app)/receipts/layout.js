@@ -7,6 +7,7 @@ import { Search, Menu, Plus, Settings, BookMarkedIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { logout } from "../action";
+import Image from "next/image";
 
 export default function RecipesLayout({ children }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +35,12 @@ export default function RecipesLayout({ children }) {
       <aside className="w-64 flex-shrink-0 bg-white border-r border-gray-200 p-4 flex flex-col shadow-sm">
         <div className="mb-8 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <img src="/cookpad.png" alt="Cookpad Logo" width={60} height={60} />
+            <Image
+              src="/cookpad.png"
+              alt="Cookpad Logo"
+              width={60}
+              height={60}
+            />
             <span className="text-2xl font-bold text-gray-800">cookbook</span>
           </Link>
           <Button
