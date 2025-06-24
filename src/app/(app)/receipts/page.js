@@ -7,7 +7,6 @@ export const dynamic = "force-dynamic";
 
 export default async function ReceiptPage({ searchParams }) {
   const cookieStore = cookies();
-  const username = cookieStore.get("username")?.value || null;
 
   const searchQuery = searchParams.q || "";
 
@@ -20,10 +19,7 @@ export default async function ReceiptPage({ searchParams }) {
     }
 
     const recipeName = receipt.nama_resep || "";
-    // const description = receipt.deskripsi_resep || ""; // Baris ini tidak lagi diperlukan untuk filter nama resep saja
-
     return recipeName.toLowerCase().includes(searchQuery.toLowerCase());
-    // || description.toLowerCase().includes(searchQuery.toLowerCase()) // Hapus baris ini
   });
 
   const receiptsToDisplay = filteredReceipts;
