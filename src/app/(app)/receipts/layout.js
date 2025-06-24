@@ -21,12 +21,12 @@ function SearchComponent() {
     });
   };
 
-  useEffect(() => {
-    const q = searchParams.get("q");
-    if (q !== searchTerm) {
-      setSearchTerm(q || "");
-    }
-  }, [searchParams, searchTerm]);
+  // useEffect(() => {
+  //   const q = searchParams.get("q");
+  //   if (q !== searchTerm) {
+  //     setSearchTerm(q || "");
+  //   }
+  // }, [searchParams, searchTerm]);
 
   return (
     <form onSubmit={handleSearchSubmit} className="w-full relative">
