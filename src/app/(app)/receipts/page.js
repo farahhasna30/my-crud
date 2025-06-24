@@ -3,11 +3,14 @@ import { Card } from "@/components/ui/card";
 import Image from "next/image";
 
 export default async function ReceiptPage({ searchParams }) {
-  const awaitedSearchParams = await searchParams;
-  const queryParam = awaitedSearchParams.q;
-  const searchQuery = Array.isArray(queryParam)
-    ? queryParam[0]
-    : queryParam || "";
+  const queryParam = (await searchParams).q;
+
+  let searchQuery = "";
+  if (Array.isArray(queryParam)) {
+    searchQuery = String(queryParam[0] || "");
+  } else {
+    searchQuery = String(queryParam || "");
+  }
 
   const res = await fetch("https://v1.appbackend.io/v1/rows/Cob8vdpflXK7");
   const { data: allReceipts } = await res.json();
@@ -16,10 +19,13 @@ export default async function ReceiptPage({ searchParams }) {
     if (!searchQuery) {
       return true;
     }
+
     const recipeName = receipt.nama_resep;
-    if (!recipeName) {
+
+    if (typeof recipeName !== "string" || !recipeName) {
       return false;
     }
+
     return recipeName.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
@@ -45,7 +51,7 @@ export default async function ReceiptPage({ searchParams }) {
                       style={{ objectFit: "cover" }}
                       className="object-center transition-transform duration-300 hover:scale-105"
                       priority
-                      sizes="100vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   )}
 
@@ -58,7 +64,7 @@ export default async function ReceiptPage({ searchParams }) {
                     <div className="flex items-center mt-1">
                       <div className="w-6 h-6 rounded-full bg-gray-300 mr-2 flex items-center justify-center text-xs text-gray-700 font-semibold overflow-hidden">
                         {receipt.username
-                          ? receipt.username.charAt(0).toUpperCase()
+                          ? String(receipt.username).charAt(0).toUpperCase()
                           : "U"}
                       </div>
                       <span className="text-sm font-medium">
