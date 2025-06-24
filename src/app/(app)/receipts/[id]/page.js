@@ -75,8 +75,6 @@ function formatCaraMembuatList(caraMembuatText) {
     });
 }
 
-export const dynamic = "force-dynamic";
-
 export default async function ReceiptDetailPage({ params }) {
   const { id } = await params;
   const receipt = await getReceiptById(id);

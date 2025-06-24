@@ -1,10 +1,11 @@
+// app/receipts/layout.js
 "use client";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, Plus, BookMarkedIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // <--- IMPOR useEffect
 import { useRouter, useSearchParams } from "next/navigation";
 import { logout } from "../action";
 import Image from "next/image";
@@ -16,15 +17,20 @@ export default function RecipesLayout({ children }) {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    router.push(`/receipts?q=${encodeURIComponent(searchTerm)}`);
+    // Gunakan router.replace untuk tidak menambah entri di history browser
+    router.replace(`/receipts?q=${encodeURIComponent(searchTerm)}`, {
+      scroll: false,
+    });
   };
 
-  useState(() => {
+  // --- PERBAIKAN DI SINI: GUNAKAN useEffect ---
+  useEffect(() => {
     const q = searchParams.get("q");
-    if (q) {
-      setSearchTerm(q);
+    // Hanya perbarui searchTerm di state jika berbeda, untuk menghindari loop tak terbatas
+    if (q !== searchTerm) {
+      setSearchTerm(q || ""); // Jika q null/undefined, set ke string kosong
     }
-  }, [searchParams]);
+  }, [searchParams, searchTerm]); // Tambahkan searchTerm sebagai dependensi agar ini dievaluasi lagi jika searchTerm diubah oleh input
 
   const handleLogout = async () => {
     await logout();
@@ -52,6 +58,8 @@ export default function RecipesLayout({ children }) {
           </Button>
         </div>
         <form onSubmit={handleSearchSubmit} className="mb-6 relative">
+          {" "}
+          {/* Pastikan ini form */}
           <Input
             placeholder="Cari"
             className="pl-9 pr-3 py-2 rounded-lg bg-gray-100 border-none focus:bg-white focus:ring-1 focus:ring-blue-400"
@@ -67,6 +75,12 @@ export default function RecipesLayout({ children }) {
           </button>
         </form>
         <nav className="flex-grow space-y-2 text-lg">
+          <Link
+            href="/receipts" // Pastikan link ini mengarah ke halaman daftar resep
+            className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 text-gray-700 font-medium transition-colors"
+          >
+            <Search size={20} className="text-gray-500" /> <span>Cari</span>
+          </Link>
           <Link
             href="/receipts"
             className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 text-gray-700 font-medium transition-colors"
@@ -88,6 +102,8 @@ export default function RecipesLayout({ children }) {
         <header className="sticky top-0 z-40 bg-white shadow-sm py-4 px-6 flex items-center justify-between border-b border-gray-200">
           <div className="relative flex-grow max-w-lg mx-auto">
             <form onSubmit={handleSearchSubmit} className="w-full">
+              {" "}
+              {/* Pastikan ini form */}
               <Input
                 placeholder="Cari fudgy brownies"
                 className="pl-10 pr-4 py-2 rounded-full bg-gray-100 border-none focus:bg-white focus:ring-1 focus:ring-blue-400 w-full"
