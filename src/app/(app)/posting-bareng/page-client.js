@@ -215,7 +215,7 @@ export default function PostingResepForm({ initialUsername }) {
               <Textarea
                 id="cara_membuat"
                 name="cara_membuat"
-                placeholder="Langkah-langkah pembuatan, setiap baris untuk satu langkah&#10;Contoh:&#10;1. Campurkan semua bahan kering&#10;2. Tambahkan bahan basah..."
+                placeholder="Langkah-langkah pembuatan, setiap baris untuk satu langkah&#10;Contoh:&#10;Campurkan semua bahan kering&#10;Tambahkan bahan basah..."
                 rows={15}
                 required
               />

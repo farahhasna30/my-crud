@@ -2,10 +2,12 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 
-export const dynamic = "force-dynamic";
-
 export default async function ReceiptPage({ searchParams }) {
-  const searchQuery = searchParams.q || "";
+  const awaitedSearchParams = await searchParams;
+  const queryParam = awaitedSearchParams.q;
+  const searchQuery = Array.isArray(queryParam)
+    ? queryParam[0]
+    : queryParam || "";
 
   const res = await fetch("https://v1.appbackend.io/v1/rows/Cob8vdpflXK7");
   const { data: allReceipts } = await res.json();
@@ -14,8 +16,10 @@ export default async function ReceiptPage({ searchParams }) {
     if (!searchQuery) {
       return true;
     }
-
-    const recipeName = receipt.nama_resep || "";
+    const recipeName = receipt.nama_resep;
+    if (!recipeName) {
+      return false;
+    }
     return recipeName.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
@@ -41,7 +45,7 @@ export default async function ReceiptPage({ searchParams }) {
                       style={{ objectFit: "cover" }}
                       className="object-center transition-transform duration-300 hover:scale-105"
                       priority
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      sizes="100vw"
                     />
                   )}
 

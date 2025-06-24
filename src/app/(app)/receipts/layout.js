@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Menu, Plus, Settings, BookMarkedIcon } from "lucide-react";
+import { Search, Menu, Plus, BookMarkedIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { logout } from "../action";

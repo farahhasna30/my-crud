@@ -8,7 +8,6 @@ export async function loginAction(_, formData) {
   const username = formData.get("username");
   console.log(username);
 
-  //save to cookies
   cookieStore.set("username", username);
   redirect("/receipts");
 }

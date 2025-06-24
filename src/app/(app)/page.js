@@ -7,6 +7,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { loginAction } from "./action";
@@ -47,7 +48,7 @@ export default function Home() {
               className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-extrabold text-lg py-3 rounded-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2"
               disabled={pending}
             >
-              {"Let's explore"}
+              Let's explore
             </Button>
           </form>
         </CardContent>

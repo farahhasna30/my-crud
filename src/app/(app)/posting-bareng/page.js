@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import PostingResepPage from "./page-client";
 
 export default async function PostingBarengWrapperPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const username = cookieStore.get("username")?.value || null;
 
   console.log(
