@@ -1,13 +1,10 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { cookies } from "next/headers";
 import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
 export default async function ReceiptPage({ searchParams }) {
-  const cookieStore = cookies();
-
   const searchQuery = searchParams.q || "";
 
   const res = await fetch("https://v1.appbackend.io/v1/rows/Cob8vdpflXK7");
