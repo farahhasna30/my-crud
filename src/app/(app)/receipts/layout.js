@@ -1,19 +1,20 @@
+// ./src/app/(app)/receipts/layout.js
+
 "use client";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, Plus, BookMarkedIcon } from "lucide-react";
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { logout } from "../action";
 import Image from "next/image";
 
 function SearchComponent() {
-  const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     router.replace(`/receipts?q=${encodeURIComponent(searchTerm)}`, {
@@ -21,17 +22,10 @@ function SearchComponent() {
     });
   };
 
-  // useEffect(() => {
-  //   const q = searchParams.get("q");
-  //   if (q !== searchTerm) {
-  //     setSearchTerm(q || "");
-  //   }
-  // }, [searchParams, searchTerm]);
-
   return (
     <form onSubmit={handleSearchSubmit} className="w-full relative">
       <Input
-        placeholder="Cari resep..." // Ubah placeholder agar lebih umum
+        placeholder="Cari resep..."
         className="pl-10 pr-4 py-2 rounded-full bg-gray-100 border-none focus:bg-white focus:ring-1 focus:ring-blue-400 w-full"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
