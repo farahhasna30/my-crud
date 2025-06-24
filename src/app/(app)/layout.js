@@ -1,39 +1,22 @@
 // app/receipts/layout.js
-"use client";
+"use client"; // Ini adalah Client Component Layout
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, Plus, BookMarkedIcon } from "lucide-react";
-import { useState, useEffect } from "react"; // <--- IMPOR useEffect
-import { useRouter, useSearchParams } from "next/navigation";
-import { logout } from "../action";
+// HAPUS import useState, useRouter, useSearchParams dari sini
+// HAPUS import { logout } from "../action"; (atau pindahkan ke Client Component lain jika diperlukan)
 import Image from "next/image";
 
 export default function RecipesLayout({ children }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  // HAPUS semua state (searchTerm, router, searchParams) dari sini
+  // HAPUS handleSearchSubmit, useState(() => {}, []), handleLogout dari sini
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    // Gunakan router.replace untuk tidak menambah entri di history browser
-    router.replace(`/receipts?q=${encodeURIComponent(searchTerm)}`, {
-      scroll: false,
-    });
-  };
-
-  // --- PERBAIKAN DI SINI: GUNAKAN useEffect ---
-  useEffect(() => {
-    const q = searchParams.get("q");
-    // Hanya perbarui searchTerm di state jika berbeda, untuk menghindari loop tak terbatas
-    if (q !== searchTerm) {
-      setSearchTerm(q || ""); // Jika q null/undefined, set ke string kosong
-    }
-  }, [searchParams, searchTerm]); // Tambahkan searchTerm sebagai dependensi agar ini dievaluasi lagi jika searchTerm diubah oleh input
-
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout = () => {
+    alert(
+      "Logout tidak diimplementasikan di sini untuk kesederhanaan. Ini adalah logout placeholder."
+    );
   };
 
   return (
@@ -57,14 +40,12 @@ export default function RecipesLayout({ children }) {
             <Menu size={20} />{" "}
           </Button>
         </div>
-        <form onSubmit={handleSearchSubmit} className="mb-6 relative">
-          {" "}
-          {/* Pastikan ini form */}
+        {/* --- FORM PENCARIAN DI SIDEBAR (AKAN MENGARAHKAN KE /receipts?q=...) --- */}
+        <form action="/receipts" method="GET" className="mb-6 relative">
           <Input
             placeholder="Cari"
             className="pl-9 pr-3 py-2 rounded-lg bg-gray-100 border-none focus:bg-white focus:ring-1 focus:ring-blue-400"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            name="q" // Nama input ini akan menjadi query parameter 'q'
           />
           <Search
             size={18}
@@ -75,12 +56,6 @@ export default function RecipesLayout({ children }) {
           </button>
         </form>
         <nav className="flex-grow space-y-2 text-lg">
-          <Link
-            href="/receipts" // Pastikan link ini mengarah ke halaman daftar resep
-            className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 text-gray-700 font-medium transition-colors"
-          >
-            <Search size={20} className="text-gray-500" /> <span>Cari</span>
-          </Link>
           <Link
             href="/receipts"
             className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 text-gray-700 font-medium transition-colors"
@@ -100,15 +75,13 @@ export default function RecipesLayout({ children }) {
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="sticky top-0 z-40 bg-white shadow-sm py-4 px-6 flex items-center justify-between border-b border-gray-200">
+          {/* --- FORM PENCARIAN DI HEADER UTAMA (AKAN MENGARAHKAN KE /receipts?q=...) --- */}
           <div className="relative flex-grow max-w-lg mx-auto">
-            <form onSubmit={handleSearchSubmit} className="w-full">
-              {" "}
-              {/* Pastikan ini form */}
+            <form action="/receipts" method="GET" className="w-full">
               <Input
-                placeholder="Cari fudgy brownies"
+                placeholder="Cari resep..."
                 className="pl-10 pr-4 py-2 rounded-full bg-gray-100 border-none focus:bg-white focus:ring-1 focus:ring-blue-400 w-full"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                name="q" // Nama input ini akan menjadi query parameter 'q'
               />
               <Search
                 size={20}
@@ -129,7 +102,7 @@ export default function RecipesLayout({ children }) {
           </div>
         </header>
         <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
-          {children}
+          {children} {/* app/receipts/page.js akan dirender di sini */}
         </main>
       </div>
     </div>
